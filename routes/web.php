@@ -19,8 +19,8 @@ Route::resource('main', MainController::class);
 Route::resource('item', ItemController::class);
 Route::resource('main', App\Http\Controllers\MainController::class);
 Route::get('main/create', [MainController::class, 'create'])->name('main.create');
-Route::get('main/edit', [MainController::class, 'edit'])->name('main.edit');
-Route::get('main/destroy', [MainController::class, 'destroy'])->name('main.destroy');
+Route::get('main/edit/{id}', [MainController::class, 'edit'])->name('main.edit');
+Route::get('main/destroy/{id}', [MainController::class, 'destroy'])->name('main.destroy');
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

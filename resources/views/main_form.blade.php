@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.template.master')
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
@@ -10,7 +10,7 @@
                             'method' => $method,
                             'route' => $route,
                         ]) !!}
-                        
+
                         <div class="form-group">
                             <label for="nama_barang">Nama Barang</label>
                             {!! Form::text('nama_barang',null, ['class' => 'form-control']) !!}
@@ -18,7 +18,7 @@
                         </div>
                         <div class="form-group mt-3">
                             <label for="stock">Stock</label>
-                            {!! Form::text('stock', null, ['class' => 'form-control']) !!}
+                            {!! Form::number('stock', null, ['class' => 'form-control']) !!}
                             <span class="text-danger">{{ $errors->first('stock') }}</span>
                         </div>
                         <div class="form-group mt-3">

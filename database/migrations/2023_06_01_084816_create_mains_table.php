@@ -15,8 +15,13 @@ return new class extends Migration
     {
         Schema::create('mains', function (Blueprint $table) {
             $table->id();
+            $table->string('nama_barang');
+            $table->integer('stock');
+            $table->string('merk');
+            $table->string('kategori');
             $table->timestamps();
         });
+
     }
 
     /**

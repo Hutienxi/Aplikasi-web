@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Main;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
@@ -13,8 +14,8 @@ class MainController extends Controller
      */
     public function index()
     {
-        $data['models'] = \App\Models\Main::latest()->paginate(50);
-            return view('main_index', $data);
+        $data['models'] = Main::get();
+        return view('main_index', $data);
     }
 
     /**
@@ -47,9 +48,9 @@ class MainController extends Controller
                     'kategori' => 'required',
                 ]);
                 \App\Models\Main::create($requestData);
-                flash('Data sudah disimpan')->success();
-                return back();
-            
+                flash('Data berhasil disimpan')->success();
+                return redirect(route('main.index'));
+
     }
 
     /**
@@ -71,7 +72,7 @@ class MainController extends Controller
      */
     public function edit($id)
     {
-        
+
         $data['model'] = \App\Models\Main::findOrFail($id);
         $data['method'] = 'PUT';
         $data['route'] = ['main.update', $id];
@@ -80,7 +81,7 @@ class MainController extends Controller
     }
 
 
-    
+
 
     /**
      * Update the specified resource in storage.
@@ -110,9 +111,9 @@ class MainController extends Controller
                     $model->foto = $pathFoto;
                     }
                 $model->save();
-                flash('Data sudah disimpan')->success();
-                return back();
-            
+                flash('Data berhasil diupdate')->success();
+                return redirect(route('main.index'));
+
     }
 
     /**
@@ -125,7 +126,7 @@ class MainController extends Controller
     {
         \App\Models\Main::destroy($id);
         flash('Data sudah dihapus')->success();
-        return back();
+        return redirect(route('main.index'));
 
     }
 }
