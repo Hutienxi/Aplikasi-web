@@ -8,11 +8,6 @@ use Yajra\DataTables\Facades\DataTables;
 
 class MainController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
 
     public function index()
     {
@@ -21,7 +16,8 @@ class MainController extends Controller
 
     public function ajax(Request $request)
     {
-        return DataTables::eloquent(Main::query())
+
+       $data = DataTables::eloquent(Main::query())
         ->addColumn('action', function ($data) {
             $button = '';
             $urlEdit = route('main.edit', ['id' => $data->id]);
@@ -31,12 +27,14 @@ class MainController extends Controller
             <div class="d-flex justify-content-center align-items-center">
 
                 <a href="' . $urlEdit . '" >
-                    <button type="button" class="btn btn-warning btn-sm ml-2" value="' . $data->id . '" >
+                    <button type="button" class="btn btn-warning mx-2 text-white" value="' . $data->id . '" >
+                    <i class="fas fa-edit"></i> Edit
                     </button>
                 </a>
 
                 <a href="' . $urlHapus . '" >
-                    <button type="button" class="btn btn-danger btn-sm ml-2" value="' . $data->id . '"  onclick="return confirm(\'Are you sure you want to delete this record?\');">
+                    <button type="button" class="btn btn-danger text-white" value="' . $data->id . '"  onclick="return confirm(\'Are you sure you want to delete this record?\');">
+                    <i class="fas fa-delete"></i> Hapus
                     </button>
                 </a>
 
@@ -52,10 +50,10 @@ class MainController extends Controller
             return $button;
         })
         ->addColumn('nama_barang', function ($data) {
-            $nama_barang = '
+            $nama = '
                 <div style="width: 100%; text-align:center;"> ' . $data->nama_barang . ' </div>
             ';
-            return $nama_barang;
+            return $nama;
         })
         ->addColumn('stock', function ($data) {
             $stock = '
@@ -89,6 +87,9 @@ class MainController extends Controller
         })
         ->rawColumns(['action', 'nama_barang', 'stock', 'merk', 'kategori', 'created_at', 'updated_at'])
         ->toJson();
+
+        return $data;
+
     }
 
     /**
@@ -106,12 +107,7 @@ class MainController extends Controller
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
             $requestData = $request->validate([
@@ -126,23 +122,13 @@ class MainController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
 
@@ -156,13 +142,7 @@ class MainController extends Controller
 
 
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
             $requestData = $request->validate([
@@ -189,12 +169,7 @@ class MainController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
         \App\Models\Main::destroy($id);
@@ -202,4 +177,5 @@ class MainController extends Controller
         return redirect(route('main.index'));
 
     }
+
 }

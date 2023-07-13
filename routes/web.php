@@ -15,14 +15,26 @@ use Illuminate\Support\Facades\Route;
  */
 Auth::routes();
 
-Route::resource('main', MainController::class);
+// Route::resource('main', MainController::class);
 Route::resource('item', ItemController::class);
-Route::resource('main', App\Http\Controllers\MainController::class);
-Route::get('main/create', [MainController::class, 'create'])->name('main.create');
-Route::get('main/edit/{id}', [MainController::class, 'edit'])->name('main.edit');
-Route::get('main/destroy/{id}', [MainController::class, 'destroy'])->name('main.destroy');
-Route::get('main/ajax', [MainController::class, 'ajax'])->name('main.ajax');
+// Route::resource('main', App\Http\Controllers\MainController::class);
 
+Route::get('/', function () {
+   return redirect(route('login'));
+})->name('/');
+
+
+Route::prefix('main')->middleware(['auth'])->group(function () {
+
+    Route::get('/index', [MainController::class, 'index'])->name('main.index');
+    Route::get('/create', [MainController::class, 'create'])->name('main.create');
+    Route::get('/edit/{id}', [MainController::class, 'edit'])->name('main.edit');
+    Route::post('/store', [MainController::class, 'store'])->name('main.store');
+    Route::get('/edit/{id}', [MainController::class, 'edit'])->name('main.edit');
+    Route::get('/destroy/{id}', [MainController::class, 'destroy'])->name('main.destroy');
+    Route::get('/ajax', [App\Http\Controllers\MainController::class, 'ajax'])->name('main.ajax');
+
+});
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
