@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Main;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class MainController extends Controller
 {
@@ -12,10 +13,82 @@ class MainController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-        $data['models'] = Main::get();
-        return view('main_index', $data);
+        return view('main_index');
+    }
+
+    public function ajax(Request $request)
+    {
+        return DataTables::eloquent(Main::query())
+        ->addColumn('action', function ($data) {
+            $button = '';
+            $urlEdit = route('main.edit', ['id' => $data->id]);
+            $urlHapus = route('main.destroy', ['id' => $data->id]);
+
+            $btnAction = '
+            <div class="d-flex justify-content-center align-items-center">
+
+                <a href="' . $urlEdit . '" >
+                    <button type="button" class="btn btn-warning btn-sm ml-2" value="' . $data->id . '" >
+                    </button>
+                </a>
+
+                <a href="' . $urlHapus . '" >
+                    <button type="button" class="btn btn-danger btn-sm ml-2" value="' . $data->id . '"  onclick="return confirm(\'Are you sure you want to delete this record?\');">
+                    </button>
+                </a>
+
+            </div>
+            ';
+
+
+            $button .= $btnAction;
+            // $button .= $edit;
+            // $button .= $hapus;
+            // $button .= $status;
+
+            return $button;
+        })
+        ->addColumn('nama_barang', function ($data) {
+            $nama_barang = '
+                <div style="width: 100%; text-align:center;"> ' . $data->nama_barang . ' </div>
+            ';
+            return $nama_barang;
+        })
+        ->addColumn('stock', function ($data) {
+            $stock = '
+                <div style="width: 100%; text-align:center;"> ' . $data->stock . ' </div>
+            ';
+            return $stock;
+        })
+        ->addColumn('merk', function ($data) {
+            $merk = '
+                <div style="width: 100%; text-align:center;"> ' . $data->merk . ' </div>
+            ';
+            return $merk;
+        })
+        ->addColumn('kategori', function ($data) {
+            $kategori = '
+                <div style="width: 100%; text-align:center;"> ' . $data->kategori . ' </div>
+            ';
+            return $kategori;
+        })
+        ->addColumn('created_at', function ($data) {
+            $created_at = '
+                <div style="width: 100%; text-align:center;"> ' . $data->created_at . ' </div>
+            ';
+            return $created_at;
+        })
+        ->addColumn('updated_at', function ($data) {
+            $updated_at = '
+                <div style="width: 100%; text-align:center;"> ' . $data->updated_at. ' </div>
+            ';
+            return $updated_at;
+        })
+        ->rawColumns(['action', 'nama_barang', 'stock', 'merk', 'kategori', 'created_at', 'updated_at'])
+        ->toJson();
     }
 
     /**
