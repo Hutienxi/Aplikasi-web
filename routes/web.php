@@ -30,6 +30,7 @@ Route::prefix('main')->middleware(['auth'])->group(function () {
     Route::get('/create', [MainController::class, 'create'])->name('main.create');
     Route::get('/edit/{id}', [MainController::class, 'edit'])->name('main.edit');
     Route::post('/store', [MainController::class, 'store'])->name('main.store');
+    Route::put('/update/{id}', [MainController::class, 'edit'])->name('main.update');
     Route::get('/edit/{id}', [MainController::class, 'edit'])->name('main.edit');
     Route::get('/destroy/{id}', [MainController::class, 'destroy'])->name('main.destroy');
     Route::get('/ajax', [App\Http\Controllers\MainController::class, 'ajax'])->name('main.ajax');

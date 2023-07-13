@@ -51,37 +51,37 @@ class MainController extends Controller
         })
         ->addColumn('nama_barang', function ($data) {
             $nama = '
-                <div style="width: 100%; text-align:center;"> ' . $data->nama_barang . ' </div>
+                <div class="text-center"> ' . $data->nama_barang . ' </div>
             ';
             return $nama;
         })
         ->addColumn('stock', function ($data) {
             $stock = '
-                <div style="width: 100%; text-align:center;"> ' . $data->stock . ' </div>
+                <div class="text-center"> ' . $data->stock . ' </div>
             ';
             return $stock;
         })
         ->addColumn('merk', function ($data) {
             $merk = '
-                <div style="width: 100%; text-align:center;"> ' . $data->merk . ' </div>
+                <div class="text-center"> ' . $data->merk . ' </div>
             ';
             return $merk;
         })
         ->addColumn('kategori', function ($data) {
             $kategori = '
-                <div style="width: 100%; text-align:center;"> ' . $data->kategori . ' </div>
+                <div class="text-center"> ' . $data->kategori . ' </div>
             ';
             return $kategori;
         })
         ->addColumn('created_at', function ($data) {
             $created_at = '
-                <div style="width: 100%; text-align:center;"> ' . $data->created_at . ' </div>
+                <div class="text-center"> ' . $data->created_at . ' </div>
             ';
             return $created_at;
         })
         ->addColumn('updated_at', function ($data) {
             $updated_at = '
-                <div style="width: 100%; text-align:center;"> ' . $data->updated_at. ' </div>
+                <div class="text-center"> ' . $data->updated_at. ' </div>
             ';
             return $updated_at;
         })
@@ -146,7 +146,7 @@ class MainController extends Controller
     public function update(Request $request, $id)
     {
             $requestData = $request->validate([
-                    'id_barang' => 'nullable' . $id,
+                    // 'id_barang' => 'nullable' . $id,
                     'nama_barang' => 'required',
                     'stock' => 'required|numeric',
                     'merk' => 'required',

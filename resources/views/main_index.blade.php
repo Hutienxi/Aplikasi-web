@@ -19,15 +19,15 @@
                     <div class="table-responsive">
                         <table id="dataTabel" class="table table-bordered" width="100%" cellspacing="0">
                             <thead>
-                                <tr class="text-center">
+                                <tr>
 
-                                    <th>Nama Barang </th>
-                                    <th>Stock</th>
-                                    <th>Merk</th>
-                                    <th>Kategori</th>
-                                    <th>Tanggal Dibuat</th>
-                                    <th>Tanggal Diganti</th>
-                                    <th>Action</th>
+                                    <th class="text-center">Nama Barang </th>
+                                    <th class="text-center">Stock</th>
+                                    <th class="text-center">Merk</th>
+                                    <th class="text-center">Kategori</th>
+                                    <th class="text-center">Tanggal Dibuat</th>
+                                    <th class="text-center">Tanggal Diganti</th>
+                                    <th class="text-center">Action</th>
 
                                 </tr>
                             </thead>
