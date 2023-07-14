@@ -4,18 +4,92 @@ namespace App\Http\Controllers;
 
 use App\Models\Main;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class MainController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        $data['models'] = Main::get();
-        return view('main_index', $data);
+        return view('main_index');
+    }
+
+    public function ajax(Request $request)
+    {
+
+       $data = DataTables::eloquent(Main::query())
+        ->addColumn('action', function ($data) {
+            $button = '';
+            $urlEdit = route('main.edit', ['id' => $data->id]);
+            $urlHapus = route('main.destroy', ['id' => $data->id]);
+
+            $btnAction = '
+            <div class="d-flex justify-content-center align-items-center">
+
+                <a href="' . $urlEdit . '" >
+                    <button type="button" class="btn btn-warning mx-2 text-white" value="' . $data->id . '" >
+                    <i class="fas fa-edit"></i> Edit
+                    </button>
+                </a>
+
+                <a href="' . $urlHapus . '" >
+                    <button type="button" class="btn btn-danger text-white" value="' . $data->id . '"  onclick="return confirm(\'Are you sure you want to delete this record?\');">
+                    <i class="fas fa-delete"></i> Hapus
+                    </button>
+                </a>
+
+            </div>
+            ';
+
+
+            $button .= $btnAction;
+            // $button .= $edit;
+            // $button .= $hapus;
+            // $button .= $status;
+
+            return $button;
+        })
+        ->addColumn('nama_barang', function ($data) {
+            $nama = '
+                <div class="text-center"> ' . $data->nama_barang . ' </div>
+            ';
+            return $nama;
+        })
+        ->addColumn('stock', function ($data) {
+            $stock = '
+                <div class="text-center"> ' . $data->stock . ' </div>
+            ';
+            return $stock;
+        })
+        ->addColumn('merk', function ($data) {
+            $merk = '
+                <div class="text-center"> ' . $data->merk . ' </div>
+            ';
+            return $merk;
+        })
+        ->addColumn('kategori', function ($data) {
+            $kategori = '
+                <div class="text-center"> ' . $data->kategori . ' </div>
+            ';
+            return $kategori;
+        })
+        ->addColumn('created_at', function ($data) {
+            $created_at = '
+                <div class="text-center"> ' . $data->created_at . ' </div>
+            ';
+            return $created_at;
+        })
+        ->addColumn('updated_at', function ($data) {
+            $updated_at = '
+                <div class="text-center"> ' . $data->updated_at. ' </div>
+            ';
+            return $updated_at;
+        })
+        ->rawColumns(['action', 'nama_barang', 'stock', 'merk', 'kategori', 'created_at', 'updated_at'])
+        ->toJson();
+
+        return $data;
+
     }
 
     /**
@@ -33,12 +107,7 @@ class MainController extends Controller
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
             $requestData = $request->validate([
@@ -53,23 +122,13 @@ class MainController extends Controller
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
 
@@ -83,17 +142,11 @@ class MainController extends Controller
 
 
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
             $requestData = $request->validate([
-                    'id_barang' => 'nullable' . $id,
+                    // 'id_barang' => 'nullable' . $id,
                     'nama_barang' => 'required',
                     'stock' => 'required|numeric',
                     'merk' => 'required',
@@ -116,12 +169,7 @@ class MainController extends Controller
 
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
         \App\Models\Main::destroy($id);
@@ -129,4 +177,5 @@ class MainController extends Controller
         return redirect(route('main.index'));
 
     }
+
 }

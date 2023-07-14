@@ -1,6 +1,6 @@
 @extends('layouts.template.master')
 @section('content')
-    <div class="container">
+    <div class="container-fluid mt-5">
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card">
@@ -31,8 +31,9 @@
                             {!! Form::text('kategori', null, ['class' => 'form-control']) !!}
                             <span class="text-danger">{{ $errors->first('kategori') }}</span>
                         </div>
-                        {!! Form::submit($namaTombol, ['class' => 'btn btn-primary']) !!}
-                        <a href="{{ route('main.index') }}"class= "btn btn-primary ">
+                        <br>
+                        {!! Form::submit($namaTombol, ['class' => 'btn btn-success']) !!}
+                        <a href="{{ route('main.index') }}"class= "btn btn-danger ">
                            Back
                         </a>
                         {!! Form::close() !!}
