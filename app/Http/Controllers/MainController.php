@@ -148,7 +148,7 @@ class MainController extends Controller
             $requestData = $request->validate([
                     // 'id_barang' => 'nullable' . $id,
                     'nama_barang' => 'required',
-                    'stock' => 'required|numeric',
+                    'stock' => 'required',
                     'merk' => 'required',
                     'kategori' => 'required',
             ]);
