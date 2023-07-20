@@ -18,6 +18,20 @@
                         <a class="nav-link" href="{{ route('main.index') }}">Barang</a>
                     </nav>
                 </div>
+                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="{{ route('stock.index') }}">Stock Barang</a>
+                    </nav>
+                </div>
+
+                @if(Auth::user()->role == 'owner')
+                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                            <a class="nav-link" href="{{ route('user') }}">User</a>
+                        </nav>
+                    </div>
+                @endif
+
                 {{-- <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                     <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                     Pages
@@ -48,16 +62,16 @@
                             </nav>
                         </div>
                     </nav>
-                </div>
-                <div class="sb-sidenav-menu-heading">Addons</div>
-                <a class="nav-link" href="charts.html">
+                </div> --}}
+                <div class="sb-sidenav-menu-heading">Input</div>
+                <a class="nav-link" href="{{ route('barangMasuk') }}">
                     <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                    Charts
+                    Barang Masuk
                 </a>
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="{{ route('barangKeluar') }}">
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                    Tables
-                </a> --}}
+                    Barang Keluar
+                </a>
             </div>
         </div>
           <div class="container  sb-sidenav-footer">
@@ -67,7 +81,7 @@
                 <b class="text-white">{{ Auth::user()->name }}</b>
               </div>
               <div class="col-sm-6 text-right">
-               <a href="{{ route('logout') }}">
+               <a href="{{ route('custom.logout') }}">
                 <button class="btn btn-sm btn-danger">
                     <i class="fas fa-sign-out-alt"></i> Logout
                   </button>

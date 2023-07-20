@@ -16,11 +16,7 @@
                             {!! Form::text('nama_barang',null, ['class' => 'form-control']) !!}
                             <span class="text-danger">{{ $errors->first('nama_barang') }}</span>
                         </div>
-                        <div class="form-group mt-3">
-                            <label for="stock">Stock</label>
-                            {!! Form::number('stock', null, ['class' => 'form-control']) !!}
-                            <span class="text-danger">{{ $errors->first('stock') }}</span>
-                        </div>
+
                         <div class="form-group mt-3">
                             <label for="merk">Merk</label>
                             {!! Form::text('merk', null, ['class' => 'form-control']) !!}

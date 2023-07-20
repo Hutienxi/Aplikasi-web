@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Main;
+use App\Models\Barang;
 use Illuminate\Http\Request;
+use Toastr;
 use Yajra\DataTables\Facades\DataTables;
 
 class MainController extends Controller
@@ -17,7 +18,7 @@ class MainController extends Controller
     public function ajax(Request $request)
     {
 
-       $data = DataTables::eloquent(Main::query())
+       $data = DataTables::eloquent(Barang::query())
         ->addColumn('action', function ($data) {
             $button = '';
             $urlEdit = route('main.edit', ['id' => $data->id]);
@@ -55,12 +56,6 @@ class MainController extends Controller
             ';
             return $nama;
         })
-        ->addColumn('stock', function ($data) {
-            $stock = '
-                <div class="text-center"> ' . $data->stock . ' </div>
-            ';
-            return $stock;
-        })
         ->addColumn('merk', function ($data) {
             $merk = '
                 <div class="text-center"> ' . $data->merk . ' </div>
@@ -85,7 +80,7 @@ class MainController extends Controller
             ';
             return $updated_at;
         })
-        ->rawColumns(['action', 'nama_barang', 'stock', 'merk', 'kategori', 'created_at', 'updated_at'])
+        ->rawColumns(['action', 'nama_barang', 'merk', 'kategori', 'created_at', 'updated_at'])
         ->toJson();
 
         return $data;
@@ -99,7 +94,7 @@ class MainController extends Controller
      */
     public function create()
     {
-        $data['model']  = new \App\Models\Main();
+        $data['model']  = new \App\Models\Barang();
         $data['method'] = 'POST';
         $data['route']  = 'main.store';
         $data['namaTombol'] = 'SIMPAN';
@@ -112,12 +107,18 @@ class MainController extends Controller
     {
             $requestData = $request->validate([
                     'nama_barang' => 'required',
-                    'stock' => 'required|numeric',
+                    // 'stock' => 'required|numeric',
                     'merk' => 'required',
                     'kategori' => 'required',
+                ],
+                [
+                    'nama_barang.required' => 'nama barang tidak boleh kosong',
+                    'merk.required' => 'merk tidak boleh kosong',
+                    'kategori.required' => 'kategori tidak boleh kosong',
                 ]);
-                \App\Models\Main::create($requestData);
-                flash('Data berhasil disimpan')->success();
+                \App\Models\Barang::create($requestData);
+
+                Toastr::success('Data berhasil di simpan ', 'Success');
                 return redirect(route('main.index'));
 
     }
@@ -132,7 +133,7 @@ class MainController extends Controller
     public function edit($id)
     {
 
-        $data['model'] = \App\Models\Main::findOrFail($id);
+        $data['model'] = \App\Models\Barang::findOrFail($id);
         $data['method'] = 'PUT';
         $data['route'] = ['main.update', $id];
         $data['namaTombol'] = 'UPDATE';
@@ -148,12 +149,12 @@ class MainController extends Controller
             $requestData = $request->validate([
                     // 'id_barang' => 'nullable' . $id,
                     'nama_barang' => 'required',
-                    'stock' => 'required',
+                    // 'stock' => 'required',
                     'merk' => 'required',
                     'kategori' => 'required',
             ]);
                 //cari data yang akan diubah
-                $model = \App\Models\Main::findOrFail($id);
+                $model = \App\Models\Barang::findOrFail($id);
                 //isi data model dengan data yang akan diupdate
                 $model->fill($requestData);
                 $pathFoto = null;
@@ -164,7 +165,8 @@ class MainController extends Controller
                     $model->foto = $pathFoto;
                     }
                 $model->save();
-                flash('Data berhasil diupdate')->success();
+
+                Toastr::success('Data berhasil di update ', 'Success');
                 return redirect(route('main.index'));
 
     }
@@ -172,8 +174,8 @@ class MainController extends Controller
 
     public function destroy($id)
     {
-        \App\Models\Main::destroy($id);
-        flash('Data sudah dihapus')->success();
+        \App\Models\Barang::destroy($id);
+        Toastr::success('Data berhasil di hapus ', 'Warning');
         return redirect(route('main.index'));
 
     }

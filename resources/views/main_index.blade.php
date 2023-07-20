@@ -22,7 +22,6 @@
                                 <tr>
 
                                     <th class="text-center">Nama Barang </th>
-                                    <th class="text-center">Stock</th>
                                     <th class="text-center">Merk</th>
                                     <th class="text-center">Kategori</th>
                                     <th class="text-center">Tanggal Dibuat</th>
@@ -64,9 +63,6 @@
                 columns: [
                     {
                         data: 'nama_barang',
-                    },
-                    {
-                        data: 'stock'
                     },
                     {
                         data: 'merk'
