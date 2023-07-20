@@ -19,6 +19,11 @@ class MainController extends Controller
     {
 
        $data = DataTables::eloquent(Barang::query())
+       ->addColumn('no', function ($data) {
+            // The 'DT_RowIndex' property provides an auto-incrementing index
+
+            return '';
+        })
         ->addColumn('action', function ($data) {
             $button = '';
             $urlEdit = route('main.edit', ['id' => $data->id]);
@@ -80,7 +85,7 @@ class MainController extends Controller
             ';
             return $updated_at;
         })
-        ->rawColumns(['action', 'nama_barang', 'merk', 'kategori', 'created_at', 'updated_at'])
+        ->rawColumns(['action', 'no', 'nama_barang', 'merk', 'kategori', 'created_at', 'updated_at'])
         ->toJson();
 
         return $data;

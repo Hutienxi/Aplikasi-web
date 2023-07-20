@@ -21,6 +21,7 @@
                             <thead>
                                 <tr>
 
+                                    <th class="text-center">No </th>
                                     <th class="text-center">Nama Barang </th>
                                     <th class="text-center">Merk</th>
                                     <th class="text-center">Kategori</th>
@@ -61,6 +62,14 @@
                 serverSide: true,
                 ajax: "{{ route('main.ajax') }}",
                 columns: [
+                    {
+                        data: 'no',
+                        className: 'text-center',
+                        render: function (data, type, row, meta) {
+                        // Menggunakan DT_RowIndex untuk nomor urut
+                            return meta.row + 1;
+                        },
+                    },
                     {
                         data: 'nama_barang',
                     },

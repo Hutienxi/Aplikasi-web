@@ -21,6 +21,7 @@
                           <thead>
                               <tr>
 
+                                  <th class="text-center">No </th>
                                   <th class="text-center">Nama Barang </th>
                                   <th class="text-center">Merk </th>
                                   <th class="text-center">Qty</th>
@@ -62,6 +63,16 @@
                 serverSide: true,
                 ajax: "{{ route('stock.ajax') }}",
                 columns: [
+                    {
+                        data: 'no',
+                        className: 'text-center',
+                        render: function (data, type, row, meta) {
+                        // Menggunakan DT_RowIndex untuk nomor urut
+                        return meta.row + 1;
+                        },
+
+
+                    },
                     {
                         data: 'id_barang',
                     },

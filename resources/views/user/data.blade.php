@@ -68,7 +68,8 @@
                         render: function (data, type, row, meta) {
                         // Menggunakan DT_RowIndex untuk nomor urut
                         return meta.row + 1;
-                    },
+                        },
+
 
                     },
                     {

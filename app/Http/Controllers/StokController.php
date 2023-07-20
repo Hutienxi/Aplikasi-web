@@ -19,6 +19,11 @@ class StokController extends Controller
     {
 
        $data = DataTables::eloquent(Stock::query())
+        ->addColumn('no', function ($data) {
+        // The 'DT_RowIndex' property provides an auto-incrementing index
+
+            return '';
+        })
         ->addColumn('action', function ($data) {
             $button = '';
             $urlEdit = route('stock.edit', ['id' => $data->id]);
@@ -96,7 +101,7 @@ class StokController extends Controller
             ';
             return $updated_at;
         })
-        ->rawColumns(['action', 'id_barang','merk', 'created_at', 'updated_at', 'qty'])
+        ->rawColumns(['action','no', 'id_barang','merk', 'created_at', 'updated_at', 'qty'])
         ->toJson();
 
         return $data;
