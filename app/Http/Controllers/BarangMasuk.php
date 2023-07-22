@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ExportBarangMasuk;
 use App\Models\Barang;
 use App\Models\BarangMasuk as ModelsBarangMasuk;
+use App\Models\LaporanBarangMasuk;
 use App\Models\Stock;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Toastr;
 use Yajra\DataTables\Facades\DataTables;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class BarangMasuk extends Controller
 {
@@ -20,7 +24,6 @@ class BarangMasuk extends Controller
 
     public function ajax(Request $request)
     {
-
        $data = DataTables::eloquent(ModelsBarangMasuk::query())
         ->addColumn('no', function ($data) {
             // The 'DT_RowIndex' property provides an auto-incrementing index
@@ -50,11 +53,7 @@ class BarangMasuk extends Controller
             </div>
             ';
 
-
             $button .= $btnAction;
-            // $button .= $edit;
-            // $button .= $hapus;
-            // $button .= $status;
 
             return $button;
         })
@@ -111,6 +110,7 @@ class BarangMasuk extends Controller
         return $id_barang;
         })
 
+
         // ->addColumn('created_at', function ($data) {
         //     $created_at = '
         //         <div class="text-center"> ' . $data->created_at . ' </div>
@@ -155,23 +155,35 @@ class BarangMasuk extends Controller
 
         $idBarang = $request->id_barang;
         $qty = $request->qty;
-        $tanggal = Carbon::now();
+        $tanggal = Carbon::parse($request->tanggal)->format('Y-m-d H:i');
 
 
         $simpanData = new ModelsBarangMasuk();
         $simpanData->id_barang = $idBarang;
         $simpanData->qty = $qty;
-        $simpanData->tanggal = $tanggal;
-
+        $simpanData->tanggal =  $tanggal;
 
         $updateStok = Stock::where('id_barang', $simpanData->id_barang)->first();
         if ($updateStok) {
+            $simpanData->save();
+
+            $simpanLaporan = new LaporanBarangMasuk();
+            $simpanLaporan->id_pesanan = $simpanData->id;
+            $simpanLaporan->id_barang = $idBarang;
+            $simpanLaporan->stok_awal = $updateStok->qty;
+            $simpanLaporan->qty = $qty;
+            $simpanLaporan->stok_akhir = $updateStok->qty + $qty;
+            // dd($updateStok->qty);
+            $simpanLaporan->tanggal = $tanggal;
+            $simpanLaporan->save();
+
             $updateStok->qty += $qty;
             $updateStok->update();
-            $simpanData->save();
+
         } else {
             return redirect(route('barangMasuk.create'));
         }
+
         Toastr::success('Data berhasil di simpan ', 'Success');
         return redirect(route('barangMasuk'));
     }
@@ -215,7 +227,7 @@ class BarangMasuk extends Controller
         // proses update data di model barang masuk
         $simpanData->id_barang = $request->id_barang;
         $simpanData->qty = $request->qty;
-        $simpanData->tanggal = Carbon::now();
+        $simpanData->tanggal =  Carbon::parse($request->tanggal)->format('Y-m-d H:i');
 
         // Proses final update stok
         $perhitunganAkhir = $stokLama->qty += $request->qty;
@@ -230,6 +242,7 @@ class BarangMasuk extends Controller
     public function destroy(Request $request, $id)
     {
         $barangMasuk = ModelsBarangMasuk::where('id', $id)->first();
+        $laporanBarangMasuk = LaporanBarangMasuk::where('id_pesanan', $barangMasuk->id)->first();
         $stokLama = Stock::where('id_barang', $barangMasuk->id_barang)->first();
         $perhitungan = $stokLama->qty -= $barangMasuk->qty;
         // dd($perhitungan);
@@ -239,9 +252,44 @@ class BarangMasuk extends Controller
             ->update(['qty' => $perhitungan]);
 
         $barangMasuk->delete();
+        $laporanBarangMasuk->delete();
 
         Toastr::warning('Data berhasil di hapus ', 'Warning');
         return redirect(route('barangMasuk'));
+    }
+
+    public function export(Request $request)
+    {
+
+
+        $startDate = $request->startDate;
+        $startDate = $startDate;
+
+        $endDate = $request->endDate;
+        $endDate = $endDate;
+
+
+        $date = Carbon::now();
+
+        $request->validate(
+            [
+                'startDate' => 'required',
+                'endDate' => 'required',
+
+            ],
+            [
+                'startDate.required' => 'Tanggal Awal tidak boleh kosong',
+                'endDate.required' => 'Tanggal Akhir tidak boleh kosong',
+
+            ]
+        );
+
+        if ($startDate > $endDate) {
+            return back()->withErrors(['msg' => 'Tanggal Awal tidak boleh lebih besar dari Tanggal Akhir']);
+        } else {
+
+            return Excel::download(new ExportBarangMasuk, 'data-barang-masuk- ' . $startDate .  '-' . $endDate . '.xlsx');
+        }
     }
 
 }

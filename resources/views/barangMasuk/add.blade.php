@@ -4,7 +4,7 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <div class="card">
-                <div class="card-header">TAMBAH STOCK BARANG</div>
+                <div class="card-header">FORM BARANG MASUK</div>
 
                     <div class="card-body">
                         <a href="{{ route('barangMasuk') }}">

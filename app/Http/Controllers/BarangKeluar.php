@@ -165,11 +165,12 @@ class BarangKeluar extends Controller
 
 
         $updateStok = Stock::where('id_barang', $simpanData->id_barang)->first();
-        if ($updateStok) {
+        if ($updateStok->qty > $request->qty) {
             $updateStok->qty -= $qty;
             $updateStok->update();
             $simpanData->save();
         } else {
+            Toastr::error('Stok tidak mencukupi! ', 'Failed');
             return redirect(route('barangKeluar.create'));
         }
         Toastr::success('Data berhasil di simpan ', 'Success');

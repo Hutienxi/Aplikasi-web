@@ -4,6 +4,7 @@ use App\Http\Controllers\BarangKeluar as ControllersBarangKeluar;
 use App\Http\Controllers\BarangMasuk as ControllersBarangMasuk;
 use App\Http\Controllers\CustomAuth;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\LaporanBarang;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\StokController;
 use App\Http\Controllers\User;
@@ -69,6 +70,7 @@ Route::prefix('barang-masuk')->middleware(['auth', 'cekRole'])->group(function (
     Route::post('/update/{id}', [ControllersBarangMasuk::class, 'update'])->name('barangMasuk.update');
     Route::get('/destroy/{id}', [ControllersBarangMasuk::class, 'destroy'])->name('barangMasuk.destroy');
     Route::get('/ajax', [ControllersBarangMasuk::class, 'ajax'])->name('barangMasuk.ajax');
+    Route::get('/export', [ControllersBarangMasuk::class, 'export'])->name('barangMasuk.export');
 
 });
 
@@ -93,6 +95,15 @@ Route::prefix('user')->middleware(['auth', 'ownerRole'])->group(function () {
     Route::post('/update/{id}', [User::class, 'update'])->name('user.update');
     Route::get('/destroy/{id}', [User::class, 'destroy'])->name('user.destroy');
     Route::get('/ajax', [User::class, 'ajax'])->name('user.ajax');
+
+});
+
+Route::prefix('laporan')->middleware(['auth', 'cekRole'])->group(function () {
+
+    Route::get('/barang-masuk', [LaporanBarang::class, 'barangMasuk'])->name('laporan.barangMasuk');
+    Route::get('/barang-masuk/ajax', [LaporanBarang::class, 'barangMasukAjax'])->name('laporan.barangMasuk.ajax');
+    Route::get('/barang/keluar-masuk/ajax', [LaporanBarang::class, 'barangKeluarMasukAjax'])->name('laporan.barangKeluarMasuk.ajax');
+    Route::get('/export', [LaporanBarang::class, 'export'])->name('laporan.export');
 
 });
 

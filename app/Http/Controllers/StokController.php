@@ -123,7 +123,7 @@ class StokController extends Controller
     {
         $request->validate(
             [
-                'id_barang' => 'required|unique:stocks',
+                'id_barang' => 'required',
                 'qty' => 'required',
             ],
             [
@@ -160,7 +160,7 @@ class StokController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'id_barang' => 'required|unique:stocks,id,' . $id,
+            'id_barang' => 'required',
             'qty' => 'required',
         ], [
             'id_barang.required' => 'Nama barang tidak boleh kosong',

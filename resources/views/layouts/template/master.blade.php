@@ -10,6 +10,8 @@
         {{-- <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" /> --}}
         <link href="{{ asset('template') }}/css/styles.css" rel="stylesheet" />
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+
+        <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css" rel="stylesheet">
     </head>
     <body class="sb-nav-fixed">
         @include('layouts.template.include.navbar')
@@ -20,6 +22,7 @@
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
+
                       @yield('content')
                     </div>
                 </main>
@@ -34,6 +37,8 @@
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="{{ asset('template') }}/js/datatables-simple-demo.js"></script>
 
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
 
          {{-- Script datatable --}}
 

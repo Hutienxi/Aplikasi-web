@@ -72,6 +72,16 @@
                     <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                     Barang Keluar
                 </a>
+
+                {{-- <div class="sb-sidenav-menu-heading">Laporan</div>
+                <a class="nav-link" href="{{ route('laporan.barangMasuk') }}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                    Barang Masuk
+                </a>
+                <a class="nav-link" href="{{ route('barangKeluar') }}">
+                    <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                    Barang Keluar
+                </a> --}}
             </div>
         </div>
           <div class="container  sb-sidenav-footer">
