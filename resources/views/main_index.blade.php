@@ -61,7 +61,7 @@
         function run() {
             table = $('#dataTabel').DataTable({
                 processing: true,
-                serverSide: true,
+                serverSide: false,
                 ajax: "{{ route('main.ajax') }}",
                 columns: [
                     {
@@ -106,7 +106,7 @@
         function run() {
             table = $('#dataTabel').DataTable({
                 processing: true,
-                serverSide: true,
+                serverSide: false,
                 ajax: "{{ route('main.ajax') }}",
                 columns: [
                     {
