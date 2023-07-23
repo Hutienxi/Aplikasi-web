@@ -16,8 +16,10 @@ class ExportBarangKeluar implements FromView, ShouldAutoSize
     {
 
         $startDate = request()->input('startDate');
+        $startDate = date($startDate. ' 00:00:00');
 
         $endDate = request()->input('endDate');
+        $endDate = date($endDate. ' 23:59:59');
 
         $data = DB::table('barang_keluar')
                 ->select('id_barang', DB::raw('sum(qty) as totalJual'), 'tanggal')
@@ -29,7 +31,7 @@ class ExportBarangKeluar implements FromView, ShouldAutoSize
                 ->orderBy('tanggal', 'asc')
                 ->get();
 
-        dd($data);
+        // dd($data);
 
         return view('barangKeluar.export', compact('data'));
     }

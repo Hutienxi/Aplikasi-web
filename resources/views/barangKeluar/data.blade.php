@@ -34,7 +34,7 @@
                                   <th class="text-center">Merk  </th>
                                   <th class="text-center">Qty</th>
                                   <th class="text-center">Tanggal</th>
-                                  <th class="text-center">Total Qty</th>
+                                  {{-- <th class="text-center">Total Qty</th> --}}
                                   {{-- <th class="text-center">Updated at</th> --}}
                                   <th class="text-center">Action</th>
 
@@ -95,9 +95,9 @@
                     {
                         data: 'tanggal'
                     },
-                    {
-                        data: 'total'
-                    },
+                    // {
+                    //     data: 'total'
+                    // },
                     // {
                     //     data: 'updated_at'
                     // },

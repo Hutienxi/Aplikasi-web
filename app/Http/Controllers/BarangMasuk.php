@@ -35,14 +35,25 @@ class BarangMasuk extends Controller
             $urlEdit = route('barangMasuk.edit', ['id' => $data->id]);
             $urlHapus = route('barangMasuk.destroy', ['id' => $data->id]);
 
+            // $btnAction = '
+            // <div class="d-flex justify-content-center align-items-center">
+
+            //     <a href="' . $urlEdit . '" >
+            //         <button type="button" class="btn btn-warning mx-2 text-white" value="' . $data->id . '" >
+            //         <i class="fas fa-edit"></i> Edit
+            //         </button>
+            //     </a>
+
+            //     <a href="' . $urlHapus . '" >
+            //         <button type="button" class="btn btn-danger text-white" value="' . $data->id . '"  onclick="return confirm(\'Are you sure you want to delete this record?\');">
+            //         <i class="fas fa-delete"></i> Hapus
+            //         </button>
+            //     </a>
+
+            // </div>
+            // ';
             $btnAction = '
             <div class="d-flex justify-content-center align-items-center">
-
-                <a href="' . $urlEdit . '" >
-                    <button type="button" class="btn btn-warning mx-2 text-white" value="' . $data->id . '" >
-                    <i class="fas fa-edit"></i> Edit
-                    </button>
-                </a>
 
                 <a href="' . $urlHapus . '" >
                     <button type="button" class="btn btn-danger text-white" value="' . $data->id . '"  onclick="return confirm(\'Are you sure you want to delete this record?\');">
@@ -92,7 +103,7 @@ class BarangMasuk extends Controller
         })
         ->addColumn('tanggal', function ($data) {
             $tanggal = '
-                <div class="text-center"> ' . Carbon::parse($data->tanggal) . ' </div>
+                <div class="text-center"> ' . Carbon::parse($data->tanggal)->format('Y-m-d') . ' </div>
             ';
             return $tanggal;
         })
@@ -155,7 +166,7 @@ class BarangMasuk extends Controller
 
         $idBarang = $request->id_barang;
         $qty = $request->qty;
-        $tanggal = Carbon::parse($request->tanggal)->format('Y-m-d H:i');
+        $tanggal = Carbon::parse($request->tanggal)->format('Y-m-d');
 
 
         $simpanData = new ModelsBarangMasuk();

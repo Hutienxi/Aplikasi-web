@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Stock;
+use Auth;
 use DB;
 use Illuminate\Http\Request;
 use Toastr;
@@ -29,23 +30,25 @@ class StokController extends Controller
             $urlEdit = route('stock.edit', ['id' => $data->id]);
             $urlHapus = route('stock.destroy', ['id' => $data->id]);
 
+
             $btnAction = '
-            <div class="d-flex justify-content-center align-items-center">
+                <div class="d-flex justify-content-center align-items-center">
 
-                <a href="' . $urlEdit . '" >
-                    <button type="button" class="btn btn-warning mx-2 text-white" value="' . $data->id . '" >
-                    <i class="fas fa-edit"></i> Edit
-                    </button>
-                </a>
+                    <a href="' . $urlEdit . '" >
+                        <button type="button" class="btn btn-warning mx-2 text-white" value="' . $data->id . '" >
+                        <i class="fas fa-edit"></i> Edit
+                        </button>
+                    </a>
 
-                <a href="' . $urlHapus . '" >
-                    <button type="button" class="btn btn-danger text-white" value="' . $data->id . '"  onclick="return confirm(\'Are you sure you want to delete this record?\');">
-                    <i class="fas fa-delete"></i> Hapus
-                    </button>
-                </a>
+                    <a href="' . $urlHapus . '" >
+                        <button type="button" class="btn btn-danger text-white" value="' . $data->id . '"  onclick="return confirm(\'Are you sure you want to delete this record?\');">
+                        <i class="fas fa-delete"></i> Hapus
+                        </button>
+                    </a>
 
-            </div>
+                </div>
             ';
+
 
 
             $button .= $btnAction;
@@ -182,7 +185,6 @@ class StokController extends Controller
             return redirect(route('stock.edit', $id));
         }
     }
-
 
     public function destroy(Request $request, $id)
     {

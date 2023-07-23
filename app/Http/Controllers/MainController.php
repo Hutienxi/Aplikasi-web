@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use Auth;
 use Illuminate\Http\Request;
 use Toastr;
 use Yajra\DataTables\Facades\DataTables;
@@ -29,23 +30,40 @@ class MainController extends Controller
             $urlEdit = route('main.edit', ['id' => $data->id]);
             $urlHapus = route('main.destroy', ['id' => $data->id]);
 
-            $btnAction = '
-            <div class="d-flex justify-content-center align-items-center">
+            if(Auth::user()->role == 'owner'){
+                $btnAction = '
+                    <div class="d-flex justify-content-center align-items-center">
 
-                <a href="' . $urlEdit . '" >
-                    <button type="button" class="btn btn-warning mx-2 text-white" value="' . $data->id . '" >
-                    <i class="fas fa-edit"></i> Edit
-                    </button>
-                </a>
+                        <a href="' . $urlEdit . '" >
+                            <button type="button" class="btn btn-warning mx-2 text-white" value="' . $data->id . '" >
+                            <i class="fas fa-edit"></i> Edit
+                            </button>
+                        </a>
 
-                <a href="' . $urlHapus . '" >
-                    <button type="button" class="btn btn-danger text-white" value="' . $data->id . '"  onclick="return confirm(\'Are you sure you want to delete this record?\');">
-                    <i class="fas fa-delete"></i> Hapus
-                    </button>
-                </a>
+                        <a href="' . $urlHapus . '" >
+                            <button type="button" class="btn btn-danger text-white" value="' . $data->id . '"  onclick="return confirm(\'Are you sure you want to delete this record?\');">
+                            <i class="fas fa-delete"></i> Hapus
+                            </button>
+                        </a>
 
-            </div>
-            ';
+                    </div>
+                ';
+            }
+            else {
+                $btnAction = '
+                    <div class="d-flex justify-content-center align-items-center">
+
+                        <a href="' . $urlHapus . '" >
+                            <button type="button" class="btn btn-danger text-white" value="' . $data->id . '"  onclick="return confirm(\'Are you sure you want to delete this record?\');">
+                            <i class="fas fa-delete"></i> Hapus
+                            </button>
+                        </a>
+
+                    </div>
+                ';
+            }
+
+
 
 
             $button .= $btnAction;
