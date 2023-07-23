@@ -167,16 +167,6 @@ class BarangMasuk extends Controller
         if ($updateStok) {
             $simpanData->save();
 
-            $simpanLaporan = new LaporanBarangMasuk();
-            $simpanLaporan->id_pesanan = $simpanData->id;
-            $simpanLaporan->id_barang = $idBarang;
-            $simpanLaporan->stok_awal = $updateStok->qty;
-            $simpanLaporan->qty = $qty;
-            $simpanLaporan->stok_akhir = $updateStok->qty + $qty;
-            // dd($updateStok->qty);
-            $simpanLaporan->tanggal = $tanggal;
-            $simpanLaporan->save();
-
             $updateStok->qty += $qty;
             $updateStok->update();
 

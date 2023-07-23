@@ -7,6 +7,14 @@
               <div class="card-header py-3 margin-top-5">
                   <h4 class="m-0 font-weight-bold text-primary">Barang Keluar</h4>
 
+                  <a href="#" class="btn btn-primary btn-icon-split float-end mx-2" onclick="exportExcel()">
+                    <span class="icon text-white-50">
+                        <i class="fas fa-print"></i>
+                    </span>
+                    <span class="text">Export</span>
+                 </a>
+
+
                   <a href="{{ route('barangKeluar.create') }}" class="btn btn-success btn-icon-split float-end">
                       <span class="icon text-white-50">
                           <i class="fas fa-plus"></i>
@@ -102,4 +110,28 @@
         }
 
     });
+</script>
+
+
+<script type="text/javascript">
+    function exportExcel() {
+        Swal.fire({
+                title: 'Export Excel',
+                html: `
+                        <label>Tanggal Mulai</label>
+                        <input type="date" id="startDate" name="startDate" class="swal2-input">
+                        <label>Tanggal Akhir</label>
+                        <input type="date" id="endDate" name="endDate" class="swal2-input">
+                    `,
+
+                confirmButtonText: 'Export',
+                focusConfirm: false,
+            })
+            .then((result) => {
+                var dari = $('#startDate').val();
+                var ke = $('#endDate').val();
+
+                window.location.href = "{{ route('barangKeluar.export') }}?startDate=" + dari + "&endDate=" + ke;
+            })
+    }
 </script>

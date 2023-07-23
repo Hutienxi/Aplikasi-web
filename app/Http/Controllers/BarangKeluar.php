@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ExportBarangKeluar;
 use App\Models\Barang;
 use App\Models\BarangKeluar as ModelsBarangKeluar;
 use App\Models\Stock;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 use Toastr;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -243,5 +245,41 @@ class BarangKeluar extends Controller
 
         Toastr::warning('Data berhasil di hapus ', 'Warning');
         return redirect(route('barangKeluar'));
+    }
+
+    public function export(Request $request)
+    {
+
+
+        $startDate = $request->startDate;
+        $startDate = $startDate;
+
+        $endDate = $request->endDate;
+        $endDate = $endDate;
+
+
+        $date = Carbon::now();
+
+        $request->validate(
+            [
+                'startDate' => 'required',
+                'endDate' => 'required',
+
+            ],
+            [
+                'startDate.required' => 'Tanggal Awal tidak boleh kosong',
+                'endDate.required' => 'Tanggal Akhir tidak boleh kosong',
+
+            ]
+        );
+
+        if ($startDate > $endDate) {
+            Toastr::error('Tanggal Awal tidak boleh lebih besar dari Tanggal Akhir');
+            return back();
+            // return back()->withErrors(['msg' => 'Tanggal Awal tidak boleh lebih besar dari Tanggal Akhir']);
+        } else {
+
+            return Excel::download(new ExportBarangKeluar, 'data-barang-keluar- ' . $startDate .  '-' . $endDate . '.xlsx');
+        }
     }
 }

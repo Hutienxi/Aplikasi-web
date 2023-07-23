@@ -83,6 +83,7 @@ Route::prefix('barang-keluar')->middleware(['auth', 'cekRole'])->group(function 
     Route::post('/update/{id}', [ControllersBarangKeluar::class, 'update'])->name('barangKeluar.update');
     Route::get('/destroy/{id}', [ControllersBarangKeluar::class, 'destroy'])->name('barangKeluar.destroy');
     Route::get('/ajax', [ControllersBarangKeluar::class, 'ajax'])->name('barangKeluar.ajax');
+    Route::get('/export', [ControllersBarangKeluar::class, 'export'])->name('barangKeluar.export');
 
 });
 
