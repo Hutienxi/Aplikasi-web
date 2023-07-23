@@ -61,6 +61,7 @@
             table = $('#dataTabel').DataTable({
                 processing: true,
                 serverSide: true,
+                // searchable: true
                 ajax: "{{ route('stock.ajax') }}",
                 columns: [
                     {
