@@ -27,7 +27,7 @@
                                   <th class="text-center">Qty</th>
                                   <th class="text-center">Tanggal Dibuat</th>
                                   <th class="text-center">Tanggal Diganti</th>
-                                  <th class="text-center">Action</th>
+                                  {{-- <th class="text-center">Action</th> --}}
 
 
                               </tr>
@@ -86,9 +86,9 @@
                     {
                         data: 'updated_at'
                     },
-                    {
-                        data: 'action'
-                    },
+                    // {
+                    //     data: 'action'
+                    // },
                 ],
 
             });
