@@ -3,6 +3,7 @@
         <tr>
             <th>No</th>
             <th>Nama Barang</th>
+            <th>Merk</th>
             <th>Total Beli</th>
             <th>Tanggal</th>
         </tr>
@@ -12,8 +13,9 @@
             <tr class="p-3">
                 <td><b>{{ $loop->iteration }}</b></td>
                 <td><b>{{ \App\Models\Barang::find($item->id_barang)['nama_barang'] }}</b></td>
+                <td><b>{{ \App\Models\Barang::find($item->id_barang)['merk'] }}</b></td>
                 <td><b>{{ $item->totalBeli }}</b></td>
-                <td><b>{{ $item->tanggal }}</b></td>
+                <td><b>{{  Carbon\Carbon::parse($item->tanggal)->format('Y-m-d') }}</b></td>
             </tr>
         @endforeach
     </tbody>
