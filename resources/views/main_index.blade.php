@@ -27,7 +27,9 @@
                                     <th class="text-center">Kategori</th>
                                     <th class="text-center">Tanggal Dibuat</th>
                                     <th class="text-center">Tanggal Diganti</th>
+                                    @if (Auth::user()->role == 'owner')
                                     <th class="text-center">Action</th>
+                                    @endif
 
                                 </tr>
                             </thead>
@@ -50,7 +52,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
 
-
+@if(Auth::user()->role == 'owner')
 <script type="text/javascript">
     $(document).ready(function() {
         run();
@@ -95,3 +97,47 @@
 
     });
 </script>
+@else
+<script type="text/javascript">
+    $(document).ready(function() {
+        run();
+        var table
+
+        function run() {
+            table = $('#dataTabel').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('main.ajax') }}",
+                columns: [
+                    {
+                        data: 'no',
+                        className: 'text-center',
+                        render: function (data, type, row, meta) {
+                        // Menggunakan DT_RowIndex untuk nomor urut
+                            return meta.row + 1;
+                        },
+                    },
+                    {
+                        data: 'nama_barang',
+                    },
+                    {
+                        data: 'merk'
+                    },
+                    {
+                        data: 'kategori'
+                    },
+                    {
+                        data: 'created_at'
+                    },
+                    {
+                        data: 'updated_at'
+                    },
+
+                ],
+
+            });
+        }
+
+    });
+</script>
+@endif
