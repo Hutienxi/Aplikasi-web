@@ -110,6 +110,12 @@ class BarangKeluar extends Controller
             ';
             return $tanggal;
         })
+        ->addColumn('ket', function ($data) {
+            $ket = '
+                <div class="text-center"> ' . $data->ket . ' </div>
+            ';
+            return $ket;
+        })
         ->addColumn('total', function ($data) {
             $join = DB::table('barangs')
             ->leftJoin('stocks', 'stocks.id_barang', '=', 'barangs.id')
@@ -136,7 +142,7 @@ class BarangKeluar extends Controller
         //     ';
         //     return $updated_at;
         // })
-        ->rawColumns(['action', 'no', 'id_barang','merk', 'qty', 'tanggal', 'total'])
+        ->rawColumns(['action', 'no', 'id_barang','merk', 'qty', 'tanggal', 'ket', 'total'])
         ->toJson();
 
         return $data;
@@ -169,12 +175,14 @@ class BarangKeluar extends Controller
         $idBarang = $request->id_barang;
         $qty = $request->qty;
         $tanggal =  Carbon::parse($request->tanggal)->format('Y-m-d');
+        $ket = $request->ket;
 
 
         $simpanData = new ModelsBarangKeluar();
         $simpanData->id_barang = $idBarang;
         $simpanData->qty = $qty;
         $simpanData->tanggal = $tanggal;
+        $simpanData->ket =  $ket;
 
 
         $updateStok = Stock::where('id_barang', $simpanData->id_barang)->first();
@@ -230,6 +238,7 @@ class BarangKeluar extends Controller
         $simpanData->id_barang = $request->id_barang;
         $simpanData->qty = $request->qty;
         $simpanData->tanggal = Carbon::now();
+        $simpanData->ket = $request->ket;
 
         // Proses final update stok
         $perhitunganAkhir = $stokLama->qty -= $request->qty;

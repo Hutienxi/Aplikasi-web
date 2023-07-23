@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('id_barang')->length(30);
             $table->integer('qty')->length(30);
             $table->dateTime('tanggal');
+            $table->string('ket')->nullable();
             $table->timestamps();
         });
     }

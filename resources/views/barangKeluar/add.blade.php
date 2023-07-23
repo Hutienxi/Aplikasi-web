@@ -26,13 +26,19 @@
 
                             <div class="form-group mb-3">
                                 <label for="">Qty</label><span class="text-danger">*</span>
-                                <input type="text" name="qty" class="form-control">
+                                <input type="text" name="qty" class="form-control" value="{{ old('qty') }}">
                             </div>
 
                             <div class="form-group mb-3">
                                 <label for="">Tanggal</label><span class="text-danger">*</span>
-                                <input type="date" name="tanggal" class="form-control">
+                                <input type="date" name="tanggal" class="form-control" value="{{ old('tanggal') }}">
                             </div>
+
+                            <div class="form-group mb-3">
+                                <label for="">Keterangan</label><span class="text-danger">*</span>
+                                <input type="text" name="ket" class="form-control" value="{{ old('ket') }}">
+                            </div>
+
 
                             <button type="submit" class="btn btn-primary">Simpan</button>
                         </form>
