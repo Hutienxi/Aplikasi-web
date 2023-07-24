@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('nama_barang', 100);
             // $table->integer('stock');
             $table->string('merk', 50);
+            $table->integer('id_supplier', 11);
             $table->string('kategori', 50);
             $table->timestamps();
         });
