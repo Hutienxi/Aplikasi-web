@@ -7,7 +7,7 @@
                 <div class="card-header">TAMBAH DATA BARANG</div>
 
                     <div class="card-body">
-                        <a href="{{ route('stock.index') }}">
+                        <a href="{{ route('barang') }}">
                             <button class="btn btn-danger float-end ">Kembali</button>
                         </a>
                         <br>
