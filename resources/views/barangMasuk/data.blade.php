@@ -114,7 +114,7 @@
 <script type="text/javascript">
     function exportExcel() {
         Swal.fire({
-                title: 'Export Excel',
+                title: 'Export PDF',
                 html: `
                         <label>Tanggal Mulai</label>
                         <input type="date" id="startDate" name="startDate" class="swal2-input">

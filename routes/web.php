@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Barang;
 use App\Http\Controllers\BarangKeluar as ControllersBarangKeluar;
 use App\Http\Controllers\BarangMasuk as ControllersBarangMasuk;
 use App\Http\Controllers\CustomAuth;
@@ -7,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LaporanBarang;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\StokController;
+use App\Http\Controllers\Supplier;
 use App\Http\Controllers\User;
 use App\Models\BarangMasuk;
 use Illuminate\Support\Facades\Route;
@@ -39,13 +41,13 @@ Route::get('/logout', [CustomAuth::class, 'customLogout'])->name('custom.logout'
 
 Route::prefix('barang')->middleware(['auth', 'cekRole'])->group(function () {
 
-    Route::get('/', [MainController::class, 'index'])->name('main.index');
-    Route::get('/create', [MainController::class, 'create'])->name('main.create');
-    Route::get('/edit/{id}', [MainController::class, 'edit'])->name('main.edit');
-    Route::post('/store', [MainController::class, 'store'])->name('main.store');
-    Route::put('/update/{id}', [MainController::class, 'update'])->name('main.update');
-    Route::get('/destroy/{id}', [MainController::class, 'destroy'])->name('main.destroy');
-    Route::get('/ajax', [MainController::class, 'ajax'])->name('main.ajax');
+    Route::get('/', [Barang::class, 'index'])->name('barang');
+    Route::get('/create', [Barang::class, 'create'])->name('barang.create');
+    Route::get('/edit/{id}', [Barang::class, 'edit'])->name('barang.edit');
+    Route::post('/store', [Barang::class, 'store'])->name('barang.store');
+    Route::post('/update/{id}', [Barang::class, 'update'])->name('barang.update');
+
+    Route::get('/ajax', [Barang::class, 'ajax'])->name('barang.ajax');
 
 });
 
@@ -58,6 +60,18 @@ Route::prefix('stock')->middleware(['auth', 'cekRole'])->group(function () {
     Route::post('/update/{id}', [StokController::class, 'update'])->name('stock.update');
     Route::get('/destroy/{id}', [StokController::class, 'destroy'])->name('stock.destroy');
     Route::get('/ajax', [StokController::class, 'ajax'])->name('stock.ajax');
+
+});
+
+Route::prefix('supplier')->middleware(['auth', 'cekRole'])->group(function () {
+
+    Route::get('/', [Supplier::class, 'index'])->name('supplier');
+    Route::get('/create', [Supplier::class, 'create'])->name('supplier.create');
+    Route::get('/edit/{id}', [Supplier::class, 'edit'])->name('supplier.edit');
+    Route::post('/store', [Supplier::class, 'store'])->name('supplier.store');
+    Route::post('/update/{id}', [Supplier::class, 'update'])->name('supplier.update');
+    // Route::get('/destroy/{id}', [StokController::class, 'destroy'])->name('stock.destroy');
+    Route::get('/ajax', [Supplier::class, 'ajax'])->name('supplier.ajax');
 
 });
 

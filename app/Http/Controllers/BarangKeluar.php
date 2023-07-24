@@ -6,6 +6,7 @@ use App\Exports\ExportBarangKeluar;
 use App\Models\Barang;
 use App\Models\BarangKeluar as ModelsBarangKeluar;
 use App\Models\Stock;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
@@ -267,39 +268,74 @@ class BarangKeluar extends Controller
         return redirect(route('barangKeluar'));
     }
 
+    // public function export(Request $request)
+    // {
+
+
+    //     $startDate = $request->startDate;
+    //     $startDate = $startDate;
+
+    //     $endDate = $request->endDate;
+    //     $endDate = $endDate;
+
+
+    //     $date = Carbon::now();
+
+    //     $request->validate(
+    //         [
+    //             'startDate' => 'required',
+    //             'endDate' => 'required',
+
+    //         ],
+    //         [
+    //             'startDate.required' => 'Tanggal Awal tidak boleh kosong',
+    //             'endDate.required' => 'Tanggal Akhir tidak boleh kosong',
+
+    //         ]
+    //     );
+
+    //     if ($startDate > $endDate) {
+    //         Toastr::error('Tanggal Awal tidak boleh lebih besar dari Tanggal Akhir');
+    //         return back();
+    //         // return back()->withErrors(['msg' => 'Tanggal Awal tidak boleh lebih besar dari Tanggal Akhir']);
+    //     } else {
+
+    //         return Excel::download(new ExportBarangKeluar, 'data-barang-keluar- ' . $startDate .  '-' . $endDate . '.xlsx');
+    //     }
+    // }
     public function export(Request $request)
     {
 
 
-        $startDate = $request->startDate;
-        $startDate = $startDate;
+        $startDate = request()->input('startDate');
+        $startDate = date($startDate. ' 00:00:00');
 
-        $endDate = $request->endDate;
-        $endDate = $endDate;
+        $endDate = request()->input('endDate');
+        $endDate = date($endDate. ' 23:59:59');
 
+        $join = DB::table('barang_keluar')
+                ->select('id_barang', DB::raw('sum(qty) as totalJual'), 'tanggal')
+                // ->leftJoin('barangs', 'barangs.id', 'barang_masuk.id_barang')
+                // ->select('barangs.nama_barang', 'barang_masuk.*')
+                ->where('tanggal', '>=' , $startDate)
+                ->where('tanggal', '<=' , $endDate)
+                ->groupBy('id_barang', 'tanggal')
+                ->orderBy('tanggal', 'asc')
+                ->get();
+        // dd($join);
+        $data = [
+            'title' => 'Laporan Barang Keluar',
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'join' => $join
+        ];
 
-        $date = Carbon::now();
+        $startDateFormatted = Carbon::parse($startDate)->format('Y-m-d');
+        $endDateFormatted = Carbon::parse($endDate)->format('Y-m-d');
+        $fileName = 'laporan-barang-keluar' . $startDateFormatted . '_to_' . $endDateFormatted . '.pdf';
 
-        $request->validate(
-            [
-                'startDate' => 'required',
-                'endDate' => 'required',
+        $pdf = Pdf::loadView('barangKeluar.exportPDF', $data);
 
-            ],
-            [
-                'startDate.required' => 'Tanggal Awal tidak boleh kosong',
-                'endDate.required' => 'Tanggal Akhir tidak boleh kosong',
-
-            ]
-        );
-
-        if ($startDate > $endDate) {
-            Toastr::error('Tanggal Awal tidak boleh lebih besar dari Tanggal Akhir');
-            return back();
-            // return back()->withErrors(['msg' => 'Tanggal Awal tidak boleh lebih besar dari Tanggal Akhir']);
-        } else {
-
-            return Excel::download(new ExportBarangKeluar, 'data-barang-keluar- ' . $startDate .  '-' . $endDate . '.xlsx');
-        }
+        return $pdf->download($fileName);
     }
 }
