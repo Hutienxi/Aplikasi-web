@@ -5,7 +5,7 @@
        <div class="col-12 mx-5">
           <div class="card shadow">
               <div class="card-header py-3 margin-top-5">
-                  <h4 class="m-0 font-weight-bold text-primary">Data User</h4>
+                  <h4 class="m-0 font-weight-bold text-primary">Data Pengguna</h4>
 
                   <a href="{{ route('user.create') }}" class="btn btn-success btn-icon-split float-end">
                       <span class="icon text-white-50">
