@@ -36,7 +36,7 @@
         <p class="cv-text">Periode : {{ Carbon\Carbon::parse($startDate)->format('Y-m-d') }} - {{ Carbon\Carbon::parse($endDate)->format('Y-m-d') }}</p>
 
     </div>
-    <p >CV. Tunas Jaya Abadi</p>
+    <p >CV. Nuansa Tumbuh Abadi</p>
     <p class="alamat">Jalan Kol Pol M.Thaher No. 10, RT. 14, Kelurahan Pakuan Baru,  Kecamatan Jambi Selatan</p>
 
     <table class="table table-bordered">
