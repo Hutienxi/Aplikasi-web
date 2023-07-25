@@ -17,17 +17,19 @@
                     <nav class="sb-sidenav-menu-nested nav">
                         <a class="nav-link" href="{{ route('barang') }}">Barang</a>
                     </nav>
+
+                </div>
+
+                <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a class="nav-link" href="{{ route('stock.index') }}">Stock</a>
+                    </nav>
                 </div>
 
                 @if(Auth::user()->role == 'owner')
                     <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
                             <a class="nav-link" href="{{ route('supplier') }}">Supplier</a>
-                        </nav>
-                    </div>
-                    <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
-                        <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="{{ route('stock.index') }}">Stock</a>
                         </nav>
                     </div>
 

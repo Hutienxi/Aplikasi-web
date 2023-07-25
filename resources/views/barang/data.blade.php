@@ -7,12 +7,14 @@
               <div class="card-header py-3 margin-top-5">
                   <h4 class="m-0 font-weight-bold text-primary">Data Barang</h4>
 
-                  <a href="{{ route('barang.create') }}" class="btn btn-success btn-icon-split float-end">
-                      <span class="icon text-white-50">
-                          <i class="fas fa-plus"></i>
-                      </span>
-                      <span class="text">Tambah Data</span>
-                  </a>
+                  @if (Auth::user()->role == 'owner')
+                    <a href="{{ route('barang.create') }}" class="btn btn-success btn-icon-split float-end">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                        <span class="text">Tambah Data</span>
+                    </a>
+                  @endif
               </div>
 
               <div class="card-body">
